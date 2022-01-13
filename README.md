@@ -1,4 +1,4 @@
-# mat099-dissertation
+# MSc Dissertation
 
 ## Background
 Since the beginning of the Covid pandemic, the UK Government has been required to make crucial decisions with limited time and information. While these decisions were informed by medical experts, they often did not take advantage of the plethora of scholarly articles about infectious diseases.
