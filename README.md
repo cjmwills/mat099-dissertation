@@ -11,3 +11,6 @@ Using the CORD-19 dataset, apply NLP techniques, such as unsupervised learning u
 
 ## Deliverables
 Dissertation detailing new or developed insights about Covid-19 and how the UK Government could take advantage of NLP.
+
+## Data
+Data has been compiled by the Allen Institute for AI in partnership with the Chan Zuckerberg Initiative, Georgetown University’s Center for Security and Emerging Technology, Microsoft Research, IBM, and the National Library of Medicine - National Institutes of Health, in coordination with The White House Office of Science and Technology Policy. It is freely available at: https://www.semanticscholar.org/cord19/download
