@@ -10,7 +10,7 @@ import joblib
 #--------------Config variables----------------------
 ISOLATION_SUBSET = None
 SAMPLE_SIZE = 5000
-CURRENT_MONTH = "june"
+CURRENT_MONTH = "august"
 #----------------------------------------------------
 
 data = joblib.load(f"outputs/data_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
