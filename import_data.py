@@ -8,9 +8,9 @@ import json
 
 #--------------Config variables----------------------
 SAMPLE_SIZE = 5000
-CURRENT_MONTH = "june"
-PREVIOUS_MONTH = "april"
-path_to_current_data_glob = "data/2020-06/pdf_json/*"
+CURRENT_MONTH = "august"
+PREVIOUS_MONTH = "june"
+path_to_current_data = "data/2020-08/pdf_json/"
 #----------------------------------------------------
 
 # import previous paper ID's
@@ -21,7 +21,7 @@ assert data_previous.nunique() == len(data_previous), "Duplicates in current pap
 
 # import current month data
 # get paper ID's from pdf_json/ folder
-all_papers_current = glob.glob(path_to_current_data_glob)
+all_papers_current = glob.glob(path_to_current_data + '*')
 all_papers_current_id = [re.findall("([a-z0-9]+)\.json", paper)[0] for paper in all_papers_current]
 
 # check there aren't any duplicate ID's in the current papers
@@ -42,7 +42,7 @@ new_papers_sample = new_papers.sample(n=SAMPLE_SIZE-papers_in_both, random_state
 # sanity check that none of the new current papers were in the old previous papers
 assert any(~new_papers_sample.isin(previous_papers)), "Some of the current paper sample are in the previous paper sample"
 
-current_papers_to_use = pd.concat([previous_papers['paper_id'], new_papers_sample], ignore_index=True)
+current_papers_to_use = pd.concat([previous_papers, new_papers_sample], ignore_index=True)
 
 # confirm all the current papers to use are in the current data
 assert all(True for paper in current_papers_to_use.values if paper in all_papers_current_id), "Some of the current paper sample are not in the raw data"
@@ -50,7 +50,7 @@ assert all(True for paper in current_papers_to_use.values if paper in all_papers
 # import abstract and text body of each paper into pandas data frame.
 data_json=[]
 for paper in current_papers_to_use:
-    paper_name = 'data/2020-06/pdf_json/' + paper + '.json'
+    paper_name = path_to_current_data + paper + '.json'
     try:
         json.load(open(paper_name, 'rb'))
     except:
