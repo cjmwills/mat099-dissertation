@@ -18,7 +18,7 @@ from sklearn.decomposition import LatentDirichletAllocation
 
 #--------------Config variables----------------------
 SAMPLE_SIZE = 5000
-CURRENT_MONTH = "august"
+CURRENT_MONTH = "june"
 #----------------------------------------------------
 
 data = joblib.load(f"outputs/data_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
