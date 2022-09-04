@@ -28,7 +28,7 @@ data_cleaned = data[data['text'].apply(lambda x: bool(re.match('.*[a-zA-Z]+', x)
 data_cleaned.reset_index(inplace=True, drop=True)
 
 lang = data_cleaned['text'].progress_apply(detect)
-joblib.dump("outputs/lda_lang_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
+joblib.dump(lang, f"outputs/lda_lang_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
 print("Language detector outputted to " + f"outputs/lda_lang_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
 
 data_eng = data_cleaned[lang == 'en']
@@ -40,7 +40,7 @@ stopwords=set(nltk.corpus.stopwords.words('english'))
 vectorizer = TfidfVectorizer(strip_accents='ascii', stop_words=stopwords)
 vectorizer.fit(data_eng['text'])
 
-joblib.dump(f"outputs/lda_vectorizer_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
+joblib.dump(vectorizer, f"outputs/lda_vectorizer_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
 print("LDA vectorizer outputted to " + f"outputs/lda_vectorizer_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
 
 data_vectorized = vectorizer.fit_transform(data_eng['text'])
@@ -52,5 +52,5 @@ plt.savefig(f"outputs/plots/lda_vectorizer_freq_{CURRENT_MONTH}")
 lda = LatentDirichletAllocation(n_components=5)
 lda.fit(data_vectorized)
 
-joblib.dump(f"outputs/lda_model_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
+joblib.dump(lda, f"outputs/lda_model_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
 print("LDA model outputted to " + f"outputs/lda_model_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl")
