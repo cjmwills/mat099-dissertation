@@ -17,7 +17,7 @@ path_to_current_data_glob = "data/2020-06/pdf_json/*"
 data_previous = joblib.load(f"outputs/ids_{PREVIOUS_MONTH}_{SAMPLE_SIZE}.pkl")
 
 # check there are no duplicates in the previous data
-assert data_previous['paper_id'].nunique() == len(data_previous), "Duplicates in current paper ID's need to be removed"
+assert data_previous.nunique() == len(data_previous), "Duplicates in current paper ID's need to be removed"
 
 # import current month data
 # get paper ID's from pdf_json/ folder
@@ -28,13 +28,13 @@ all_papers_current_id = [re.findall("([a-z0-9]+)\.json", paper)[0] for paper in 
 assert len(set(all_papers_current_id)) == len(all_papers_current_id), "Duplicates in current paper ID's need to be removed"
 
 # count the number of papers in both current and previous data
-papers_in_both = data_previous['paper_id'].isin(all_papers_current_id).sum()
+papers_in_both = data_previous.isin(all_papers_current_id).sum()
 
 # filter for papers that were in both current and previous (to concatenate later with new papers)
-previous_papers = data_previous[data_previous['paper_id'].isin(all_papers_current_id)]
+previous_papers = data_previous[data_previous.isin(all_papers_current_id)]
 
 # select the number of papers that ensures the SAMPLE_SIZE (5,000) papers are brought forward in total i.e. papers_in_both + X = SAMPLE_SIZE
-new_papers = [paper for paper in all_papers_current_id if paper not in data_previous['paper_id'].values]
+new_papers = [paper for paper in all_papers_current_id if paper not in data_previous.values]
 # convert to series to enable use of sample method
 new_papers = pd.Series(new_papers, name='paper_id')
 new_papers_sample = new_papers.sample(n=SAMPLE_SIZE-papers_in_both, random_state=42)
