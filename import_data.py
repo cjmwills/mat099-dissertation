@@ -10,13 +10,11 @@ import json
 SAMPLE_SIZE = 5000
 CURRENT_MONTH = "june"
 PREVIOUS_MONTH = "april"
-path_to_previous_data = "outputs/april_ids_5k.pkl"
 path_to_current_data_glob = "data/2020-06/pdf_json/*"
 #----------------------------------------------------
 
-
 # import previous paper ID's
-data_previous = joblib.load(path_to_previous_data)
+data_previous = joblib.load(f"outputs/ids_{PREVIOUS_MONTH}_{SAMPLE_SIZE}.pkl")
 
 # check there are no duplicates in the previous data
 assert data_previous['paper_id'].nunique() == len(data_previous), "Duplicates in current paper ID's need to be removed"
@@ -85,5 +83,8 @@ assert len(abstracts) == len(body_texts) == SAMPLE_SIZE, f"The number of abstrac
 data_dict = {'paper_id': current_papers_to_use.values, 'abstract': abstracts, 'text': body_texts}
 data_current = pd.DataFrame(data_dict)
 
+# output current data and paper ID's
+joblib.dump(data_current['paper_id'], f'outputs/ids_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl')
 joblib.dump(data_current, f'outputs/data_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl')
+
 print("Data outputted to " + f'outputs/data_{CURRENT_MONTH}_{SAMPLE_SIZE}.pkl')
